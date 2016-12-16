@@ -30,7 +30,7 @@ int main(int argc, char const *argv[]){
 	cin>>nombre2;
 	int turno=0;
 	bool gano=false;
-	char coordenada1, coordenada2;	
+	char coordenada1, coordenada2;
 	while(!gano){
 		bool valid = false;//variable de validacion
 		imprimir(tablero);
@@ -41,10 +41,25 @@ int main(int argc, char const *argv[]){
 				cout<<"Turno de: "<<nombre1<<endl;
 				cout<<"Ingrese columna de la pieza que desea mover: ";
 				cin>>x;
+				//Este for se usa para validar que el usuario Ingrese
+				//una columna valida
+				for (;(x > 8) || (x <= 0);) {
+					cout << "No ha ingresado una columna valida." << endl;
+					cout<<"Turno de: "<<nombre1<<endl;
+					cout<<"Ingrese columna de la pieza que desea mover: ";
+					cin>>x;
+				}//Fin del for
 				x--;
 				cout<<"Ingrese fila de la pieza que desea mover: ";
 				cin >> coordenada1;
 				y = charToInt(coordenada1);
+				//Este for se usa para validar que ingrese filas validas
+				for (;y == -1;) {
+					cout << "No ha ingresado una fila valida." << endl;
+					cout<<"Ingrese fila de la pieza que desea mover: ";
+					cin >> coordenada1;
+					y = charToInt(coordenada1);
+				}//Fin del for
 				cout<<"Ingrese columna a la desea mover la pieza: ";
 				cin>>x1;
 				x1--;
