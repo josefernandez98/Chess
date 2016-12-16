@@ -41,6 +41,7 @@ int main(int argc, char const *argv[]){
 				cout<<"Turno de: "<<nombre1<<endl;
 				cout<<"Ingrese columna de la pieza que desea mover: ";
 				cin>>x;
+
 				//Este for se usa para validar que el usuario Ingrese
 				//una columna valida
 				for (;(x > 8) || (x <= 0);) {
@@ -50,6 +51,7 @@ int main(int argc, char const *argv[]){
 					cin>>x;
 				}//Fin del for
 				x--;
+
 				cout<<"Ingrese fila de la pieza que desea mover: ";
 				cin >> coordenada1;
 				y = charToInt(coordenada1);
@@ -60,12 +62,29 @@ int main(int argc, char const *argv[]){
 					cin >> coordenada1;
 					y = charToInt(coordenada1);
 				}//Fin del for
+
 				cout<<"Ingrese columna a la desea mover la pieza: ";
 				cin>>x1;
+				//Este for se usa para validar que el usuario Ingrese
+				//una columna valida
+				for (;(x1 > 8) || (x1 <= 0);) {
+					cout << "No ha ingresado una columna valida." << endl;
+					cout<<"Ingrese columna de la pieza que desea mover: ";
+					cin>>x;
+				}//Fin del for
 				x1--;
+
 				cout<<"Ingrese fila a la desea mover la pieza: : ";
 				cin >> coordenada2;
 				y1 = charToInt(coordenada2);
+				//Este for se usa para validar que ingrese filas validas
+				for (;y1 == -1;) {
+					cout << "No ha ingresado una fila valida." << endl;
+					cout<<"Ingrese fila de la pieza que desea mover: ";
+					cin >> coordenada2;
+					y1 = charToInt(coordenada2);
+				}//Fin del for
+
 				Position pos(x1,y1);
 				if (tablero[y][x]->getColor()=='B' && tablero[y][x] != NULL){//validacion de mover
 					if(tablero[y][x]->moveTo(tablero,pos))
@@ -185,43 +204,49 @@ void chessInit(Piece*** tablero){//Inicializar tablero
 	}
 }
 int charToInt(char coordenada){
-	switch (coordenada){
-		case 'a':
-			return 0;
-		case 'b':
-			return 1;
-		case 'c':
-			return 2;
-		case 'd':
-			return 3;
-		case 'e':
-			return 4;
-		case 'f':
-			return 5;
-		case 'g':
-			return 6;
-		case 'h':
-			return 7;
-		case 'A':
-			return 0;
-		case 'B':
-			return 1;
-		case 'C':
-			return 2;
-		case 'D':
-			return 3;
-		case 'E':
-			return 4;
-		case 'F':
-			return 5;
-		case 'G':
-			return 6;
-		case 'H':
-			return 7;
-		default:
-			return -1;
-	}
-}
+	/*
+	Cambie el switch case a una serie de if's
+	porque así funcionaba.
+	Retorna negativo 1 en caso de que no ingrese
+	una fila valida.
+	*/
+	if (coordenada == 'a') {
+		return 0;
+	} else if (coordenada == 'b') {
+		return 1;
+	} else if (coordenada == 'c') {
+		return 2;
+	} else if (coordenada == 'd') {
+		return 3;
+	} else if (coordenada == 'e') {
+		return 4;
+	} else if (coordenada == 'f') {
+		return 5;
+	} else if (coordenada == 'g') {
+		return 6;
+	} else if (coordenada == 'h') {
+		return 7;
+	} else 	if (coordenada == 'A') {
+		return 0;
+	} else if (coordenada == 'B') {
+		return 1;
+	} else if (coordenada == 'C') {
+		return 2;
+	} else if (coordenada == 'D') {
+		return 3;
+	} else if (coordenada == 'E') {
+		return 4;
+	} else if (coordenada == 'F') {
+		return 5;
+	} else if (coordenada == 'G') {
+		return 6;
+	} else if (coordenada == 'H') {
+		return 7;
+	} else {
+		return -1;
+	}//Fin de los if
+}//Fin del metodo
+
 bool ganar(Piece*** tablero){
 	int cont=0;
 	for (int i = 0; i < 8; ++i){
