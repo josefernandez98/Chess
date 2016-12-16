@@ -1,6 +1,6 @@
-#include "piece.hpp" 
-#include "queen.hpp" 
-#include <string> 
+#include "piece.hpp"
+#include "queen.hpp"
+#include <string>
 #include <iostream>
 #include <sstream>
 
@@ -12,10 +12,11 @@ Queen::Queen(char color, int x, int y):Piece(color, x, y){
 bool Queen::isValidMove(Piece*** board, Position destiny){
 	Bishop b(this->color,this->position.getX(),this->position.getY());
 	Rook r(this->color,this->position.getX(),this->position.getY());
-	if (r.isValidMove(board, destiny)||b.isValidMove(board, destiny))
+	if (r.isValidMove(board, destiny)||b.isValidMove(board, destiny)) {
 		return true;
-	else
+	} else {
 		return false;
+	}
 }
 bool Queen::moveTo(Piece*** board, Position destiny){
 	if(isValidMove(board,destiny)){

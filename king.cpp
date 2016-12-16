@@ -38,11 +38,8 @@ bool King::isValidMove(Piece*** board, Position destiny){
 			}else{
 				return false;
 			}
-
-			
-
 		}else if (board[destiny.getY()][destiny.getX()]->getColor()=='B'){
-			return false;	
+			return false;
 		}
 	}else{
 		if (board[destiny.getY()][destiny.getX()]==NULL || board[destiny.getY()][destiny.getX()]->getColor()=='B'){
@@ -66,12 +63,12 @@ bool King::isValidMove(Piece*** board, Position destiny){
 				return false;
 			}
 		} else	{
-			return false;	
+			return false;
 		}
 
 
 	}
-	
+
 
 
 

@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <fstream> //incluyo fstream para poder guardar al archivo
+#include <sstream> //incluyo sstream para poder guardar al archivo
 #include "position.hpp"
 #include "piece.hpp"
 #include "king.hpp"
@@ -22,7 +24,7 @@ int main(int argc, char const *argv[]){
 	const int ROWS = 8;
 	const int COLS = 8;
 	Piece*** tablero = crearTablero(ROWS,COLS);
-
+	
 	string nombre1,nombre2;
 	cout<<"Jugador1 ingrese su nombre: "<<endl;
 	cin>>nombre1;
@@ -87,15 +89,41 @@ int main(int argc, char const *argv[]){
 
 				Position pos(x1,y1);
 				if (tablero[y][x]->getColor()=='B' && tablero[y][x] != NULL){//validacion de mover
-					if(tablero[y][x]->moveTo(tablero,pos))
+					if(tablero[y][x]->moveTo(tablero,pos)) {
 						valid = true;//variable de validacion
-					else
+					} else {
 						valid = false;
+					}
 				}else{
 					cerr << "No se puede mover las piezas del juagdor opuesto" << endl;
 				}
 			}
+			/*Se pone lo siguiente para
+			asi poder escribir en el archivo
+			de texto, se hace cada vez que se
+			realiza un movimiento
+			*/
 
+			char letras[] = "ABCDEFGH";
+			int numeros[] = {1,2,3,4,5,6,7,8};
+			stringstream ss;
+			ofstream myfile("Tablero.txt");
+			for (int i = 0; i < 8; ++i){
+				for (int j = 0; j < 8; ++j)	{
+					if(tablero[i][j] != NULL) {
+						ss << "[" << tablero[i][j]->toString() << "]";
+					} else {
+						ss << "[ ]";
+					}
+				}
+				ss << letras[i] << endl;
+			}
+			for (int i = 0; i < 8; ++i)	{
+				ss << " " << numeros[i] << " ";
+			}
+			ss << endl;
+			myfile << ss.str();
+			myfile.close();
 		}else{
 			while(!valid){//ciclo de validacion
 				cout<<"Turno de: "<<nombre2<<endl;
@@ -114,23 +142,57 @@ int main(int argc, char const *argv[]){
 
 				Position pos(x1,y1);
 				if (tablero[y][x]->getColor()=='N' && tablero[y][x] != NULL){//validacion de mover
-					if(tablero[y][x]->moveTo(tablero,pos))
+					if (tablero[y][x]->moveTo(tablero,pos)) {
 						valid = true;//variable de validacion
-					else
+					} else {
 						valid = false;
+					}//Fin del if
 				}else{
 					cerr << "No se puede mover las piezas del jugador opuesto" << endl;
 				}
 			}
+
+			/*Se pone lo siguiente para
+			asi poder escribir en el archivo
+			de texto, se hace cada vez que se
+			realiza un movimiento
+			*/
+
+			char letras[] = "ABCDEFGH";
+			int numeros[] = {1,2,3,4,5,6,7,8};
+			stringstream ss;
+			ofstream myfile("Tablero.txt");
+			for (int i = 0; i < 8; ++i){
+				for (int j = 0; j < 8; ++j)	{
+					if(tablero[i][j] != NULL) {
+						ss << "[" << tablero[i][j]->toString() << "]";
+					} else {
+						ss << "[ ]";
+					}
+				}
+				ss << letras[i] << endl;
+			}
+			for (int i = 0; i < 8; ++i)	{
+				ss << " " << numeros[i] << " ";
+			}
+			ss << endl;
+			myfile << ss.str();
+			myfile.close();
+
+
 		}
 		gano = ganar(tablero);
 	}
 
 	destruirTablero(tablero,ROWS,COLS);
 	return 0;
-}
+}//Fin del metodo
+
 Piece*** crearTablero(int rows, int cols){
 	Piece*** retval = new Piece**[rows];
+
+
+
 	for (int i = 0; i < rows; ++i)	{
 		retval[i] = new Piece*[cols];
 	}
@@ -141,13 +203,15 @@ Piece*** crearTablero(int rows, int cols){
 	}
 	chessInit(retval);
 	return retval;
-}
+}//Fin del metodo
+
 void destruirTablero(Piece*** tablero, int rows, int cols){
 	for (int i = 0; i < cols; ++i)	{
 		delete[] tablero[i];
 	}
 	delete[] tablero;
-}
+}//Fin del metodo
+
 void imprimir(Piece*** tablero){//imprimir tablero
 	char letras[] = "ABCDEFGH";
 	int numeros[] = {1,2,3,4,5,6,7,8};
@@ -164,7 +228,9 @@ void imprimir(Piece*** tablero){//imprimir tablero
 		cout << " " << numeros[i] << " ";
 	}
 	cout << endl;
-}
+}//Fin del metodo
+
+
 void chessInit(Piece*** tablero){//Inicializar tablero
 	//piezas blancas
 	//torres
@@ -203,6 +269,8 @@ void chessInit(Piece*** tablero){//Inicializar tablero
 		tablero[6][i] = new Pawn('N',i,6);
 	}
 }
+
+
 int charToInt(char coordenada){
 	/*
 	Cambie el switch case a una serie de if's
